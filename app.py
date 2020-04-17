@@ -26,7 +26,7 @@ if age >= 18:
     message = "Eligible1"
 else:
     message = "Not eligible"
-print(message) # nema scope-a?!?!?!
+print(message)  # nema scope-a?!?!?!
 
 # ternary operator
 message_2 = "Eligible2" if age >= 18 else "Not eligible"
@@ -40,5 +40,30 @@ if high_income and good_credit and not student:
     print("Eligible3")
 
 # chain operators
+if 18 <= age < 65:
+    print("Eligible4")
 
+# for loops
+# (index - krece od ukljucujuci ga, index - ide do ne ukljucujuci ga, krece od 1 step) ??
+for number in range(0, 9, 1):
+    print("Attemp", number, "." * number)  # 0,1,2,3,4,5,6,7,8
+    if False:
+        break  # exit from for loop, print only 0
+else:  # ako je uvucen ispod for-a a ne if-a, onda ce se ispisati samo jednom i to na kraju ako se ne dogodi break!!
+    print("go")
 
+# nasted loops
+# for u for petlji
+
+#iterables
+print(type(5))
+print(type(range(5)))
+
+for x in "Python": # range(5), "Python", [1, 2, 3, 4, 5]
+    print(x)
+
+#while loops
+number_w = 7
+while number_w > 5:
+    print(number_w)
+    number_w -= 1
