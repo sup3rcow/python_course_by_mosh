@@ -1,3 +1,6 @@
+from collections import deque
+from array import array
+
 letters = ["a", "b", "c"]
 list_of_lists = [[0, 1], [2, 3]]
 zeros = [0] * 5  # [0,0,0,0,0]
@@ -92,4 +95,69 @@ print([item for item in tuple_items if item[1] > 9])
 # zip
 list1 = [1, 2, 3]
 list2 = [10, 20, 30]
-print(list(zip("abc", list1, list2))) # [('a', 1, 10), ('b', 2, 20), ('c', 3, 30)]
+# [('a', 1, 10), ('b', 2, 20), ('c', 3, 30)]
+print(list(zip("abc", list1, list2)))
+
+# stack
+browsing_session = []
+if not browsing_session:  # ne moras gledati count
+    print("prazna lista")
+browsing_session.append(1)
+browsing_session.append(2)
+browsing_session.append(3)
+browsing_session.pop()  # lifo
+
+# queuse
+queue = deque([])
+if not queue:
+    print("prazan queue")
+queue.append(1)
+queue.append(2)
+queue.append(3)
+queue.popleft()  # fifo
+print(queue)  # deque([2, 3])
+
+# tuples, cannot modify tuple
+point = 1, 2  # same as (1, 2)
+# point = ()
+# point = 1, 2,
+# point = (1, 2) + (3, 4) # (1,2,3,4)
+# point = (1, 2) * 3 # (1,2,1,2,1,2)
+# x = 1, # ako je jedna znamenka,mora zadnje biti "," kako bi python skuzio da je tuple
+print(point, type(point))  # <class 'tuple'>
+point = tuple([1, 2])
+ltters_from_tuple = tuple("Hello World")
+print(ltters_from_tuple[0: 2])
+if 2 in point:
+    print("2 exists")
+
+# swaping
+x = 10
+y = 11
+x, y = y, x  # swaping
+a, b = 1, 2  # unpacking tuple
+print(x, y, a, b)
+
+# arrays, objekti moraju biti istog tipa!! bolje preformanse od liste, koristi samo kad imas prefromase probleme i veliki broj itema
+array_numbers = array("i", [1, 2, 3])  # "i" signed integers
+array_numbers.append(4)
+array_numbers.insert(0, 11)  # dodaj na odredjeni index
+print(array_numbers)
+
+# sets, unordered collection with no duplicates, can not acces using index
+numbers_duplicates = [1, 1, 2, 3, 4]
+numbers_sets = set(numbers_duplicates)  # {1, 2, 3, 4}
+numbers_sets.add(5)
+numbers_sets.remove(5)
+print(list(numbers_sets), len(numbers_sets))
+
+union_sets = {1, 2, 3, 4} | {3, 4, 5}
+intersection_sets = {1, 2, 3, 4} & {3, 4, 5}
+first_withou_second_sets = {1, 2, 3, 4} - {3, 4, 5}
+symetric_diff_sets = {1, 2, 3, 4} ^ {3, 4, 5}
+print(union_sets) # {1, 2, 3, 4, 5}
+print(intersection_sets) # {3, 4}
+print(first_withou_second_sets) # {1, 2}
+print(symetric_diff_sets) # {1, 2, 5}
+if 1 in union_sets:
+    print("set has 1")
