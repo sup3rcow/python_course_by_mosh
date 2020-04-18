@@ -26,8 +26,7 @@ if age >= 18:
     message = "Eligible1"
 else:
     message = "Not eligible"
-print(message)  # nema scope-a?!?!?!
-
+print(message)  # varijable unutar if-a pripadaju vanjskom scope-u!!!!!!!!!!!!!
 # ternary operator
 message_2 = "Eligible2" if age >= 18 else "Not eligible"
 print(message_2)
