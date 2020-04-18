@@ -49,9 +49,9 @@ message = "a"
 
 def method_one(name):
     # bad practive, dont do this
-    global message # kazes da ne kreira lokalnu vraijabu i da koristi globalnu
+    global message  # kazes da ne kreira lokalnu vraijabu i da koristi globalnu
     message = "b"
 
 
 method_one("blaa")
-print(message) # output b
+print(message)  # output b
