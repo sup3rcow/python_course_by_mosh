@@ -1,6 +1,7 @@
 from collections import deque
 from array import array
 from sys import getsizeof
+from pprint import pprint
 
 letters = ["a", "b", "c"]
 list_of_lists = [[0, 1], [2, 3]]
@@ -96,8 +97,8 @@ print([item for item in tuple_items if item[1] > 9])
 number_values = []
 for x in range(5):
     number_values.append(x * 2)
-print(number_values) # [0, 2, 4, 6, 8]
-print([x *2 for x in range(5)]) # [0, 2, 4, 6, 8]
+print(number_values)  # [0, 2, 4, 6, 8]
+print([x * 2 for x in range(5)])  # [0, 2, 4, 6, 8]
 
 # zip
 list1 = [1, 2, 3]
@@ -162,22 +163,22 @@ union_sets = {1, 2, 3, 4} | {3, 4, 5}
 intersection_sets = {1, 2, 3, 4} & {3, 4, 5}
 first_withou_second_sets = {1, 2, 3, 4} - {3, 4, 5}
 symetric_diff_sets = {1, 2, 3, 4} ^ {3, 4, 5}
-print(union_sets) # {1, 2, 3, 4, 5}
-print(intersection_sets) # {3, 4}
-print(first_withou_second_sets) # {1, 2}
-print(symetric_diff_sets) # {1, 2, 5}
+print(union_sets)  # {1, 2, 3, 4, 5}
+print(intersection_sets)  # {3, 4}
+print(first_withou_second_sets)  # {1, 2}
+print(symetric_diff_sets)  # {1, 2, 5}
 if 1 in union_sets:
     print("set has 1")
 
 # dictionaries
-dictionary = { "x": 1, "y": 2 }
-dictionary = dict(x=1, y=2) # koriti ovaj nacin, elegantni je
-dictionary["x"] # 1
+dictionary = {"x": 1, "y": 2}
+dictionary = dict(x=1, y=2)  # koriti ovaj nacin, elegantni je
+dictionary["x"]  # 1
 dictionary["x"] = 10
 dictionary["z"] = 30
 # dictionary["a"] # error
-dictionary.get("a") # None -> null u python jeziku
-dictionary.get("a", 0) # 0, vrati default value
+dictionary.get("a")  # None -> null u python jeziku
+dictionary.get("a", 0)  # 0, vrati default value
 del dictionary["z"]
 print(dictionary)
 for key in dictionary:
@@ -187,31 +188,46 @@ for key, value in dictionary.items():
     print(key, value)
 
 # dictionary comprehensions comprehesive
-set_values = {f"x{x}": x * 2 for x in range(5)} # {'x0': 0, 'x1': 2, 'x2': 4, 'x3': 6, 'x4': 8}
+# {'x0': 0, 'x1': 2, 'x2': 4, 'x3': 6, 'x4': 8}
+set_values = {f"x{x}": x * 2 for x in range(5)}
 print(set_values)
 
 # generator expresion, da ne cuvas velike podatke u memoriji, nego njihov opis.. tj generator
 # ne znas koliko ima elemenata u generatoru, jedini nacin je da iteriras..
 gen_values = (x * 2 for x in range(1000))
 listt_values = [x * 2 for x in range(1000)]
-print(type(gen_values)) # <class 'generator'>
-print(getsizeof(gen_values)) # 56 ili neki drugi broj
-print(getsizeof(listt_values)) # 4508 manji broj od gen_values
+print(type(gen_values))  # <class 'generator'>
+print(getsizeof(gen_values))  # 56 ili neki drugi broj
+print(getsizeof(listt_values))  # 4508 manji broj od gen_values
 
 
 # unpacking operator, slicno kau u js-u destructor
 unpck_numbers = [1, 2, 3]
-print(unpck_numbers) # [1, 2, 3]
-print(*unpck_numbers) # 1 2 3
-print(1, 2, 3) # 1 2 3
+print(unpck_numbers)  # [1, 2, 3]
+print(*unpck_numbers)  # 1 2 3
+print(1, 2, 3)  # 1 2 3
 
-print(range(3)) # range(0, 3)
-print(*range(3)) # 0 1 2
-print([*range(5), *"Hello"]) # [0, 1, 2, 3, 4, 'H', 'e', 'l', 'l', 'o']
+print(range(3))  # range(0, 3)
+print(*range(3))  # 0 1 2
+print([*range(5), *"Hello"])  # [0, 1, 2, 3, 4, 'H', 'e', 'l', 'l', 'o']
 
 dict1 = {"x": 1}
 dict2 = dict(x=10, y=2)
-print({**dict1, **dict2, "z": 1}) # {'x': 10, 'y': 2, 'z': 1}
+print({**dict1, **dict2, "z": 1})  # {'x': 10, 'y': 2, 'z': 1}
 
 
+# practice
+sentence = "This is a common interview question"
 
+char_freq = {}
+for char in sentence:
+    if char in char_freq:
+        char_freq[char] += 1
+    else:
+        char_freq[char] = 1
+print(sorted(
+    char_freq.items(),
+    key=lambda item: item[1],
+    reverse=True
+)[0])  # sorted tuple from dict
+#pprint(char_freq, width=1)
