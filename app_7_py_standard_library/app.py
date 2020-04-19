@@ -2,6 +2,7 @@
 from pathlib import Path
 from time import ctime
 import shutil
+from zipfile import ZipFile
 
 # Path("C:\\Program Files\\Microsoft")
 # Path(r"C:\Program Files\Microsoft") # raw path "r", ne moras pisati \\ umjesto \
@@ -69,3 +70,21 @@ target = Path() / "ecommerce/copy_of__init__.py" # curent dir + ecommerce/copy_o
 
 # target.write_text(source.read_text()) # ne bas najbolji nacin
 shutil.copy(source, target) # bolji nacin
+
+# write to zip files
+# zip = ZipFile("files.zip", "w")
+with ZipFile("files.zip", "w") as zip: # ne moras zip.close(), ni try/finally
+    print([p for path in Path("ecommerce").rglob("*.*")]) # *.* all files and its children # [WindowsPath('ecommerce/__init__.py'), WindowsPath('ecommerce/__init__.py')]
+    for path in Path("ecommerce").rglob("*.*"):
+        zip.write(path)
+# zip.close()
+
+# read from zip files
+with ZipFile("files.zip") as zip:
+    print(zip.namelist()) # print filenames in zip file # ['ecommerce/copy_of__init__.py', 'ecommerce/__init__.py']
+    info = zip.getinfo("ecommerce/__init__.py")
+    print(info.file_size)
+    print(info.compress_size)
+    # zip.extractall("extract")
+
+
