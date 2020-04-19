@@ -12,16 +12,16 @@ class Point:  # PascalNamingConvetion
 
     def __str__(self):  # slicno kao override to string metode
         return f"({self.x}, {self.y})"
-    
-    def __eq__(self, other): # override compare metode
-        return self.x == other.x and self.y == other.y 
+
+    def __eq__(self, other):  # override compare metode
+        return self.x == other.x and self.y == other.y
 
     def __gt__(self, other):
         return self.x > other.x and self.y > other.y
 
     def __add__(self, other):
-        return Point(self.x + other.x, self.y + other.y) # kreiras novi objekt
-    
+        return Point(self.x + other.x, self.y + other.y)  # kreiras novi objekt
+
     # instance method
     def draw(self):
         print(f"Point {self.x} {self.y}")
@@ -54,41 +54,100 @@ point2 = Point(1, 2)
 point3 = Point(2, 3)
 print(point1 == point2)
 print(point2 < point3)
-print(point1 + point2) # (2, 4)
+print(point1 + point2)  # (2, 4)
 
 # custom containers
+
+
 class TagCloud:
     def __init__(self):
-        self.__tags = {} # private prefix "__"
-    
+        self.__tags = {}  # private prefix "__"
+
     def add(self, tag):
         self.__tags[tag.lower()] = self.__tags.get(tag.lower(), 0) + 1
 
-    def __getitem__(self, tag): # mogucis tags["python"]
+    def __getitem__(self, tag):  # mogucis tags["python"]
         return self.__tags.get(tag.lower(), 0)
 
     def __setitem__(self, tag, count):
         self.__tags[tag.lower()] = count
 
-    def __len__(self): # omogucis len metodu nad objektom
+    def __len__(self):  # omogucis len metodu nad objektom
         return len(self.__tags)
-    
-    def __iter__(self): # omoguci iteraciju
+
+    def __iter__(self):  # omoguci iteraciju
         return iter(self.__tags)
+
 
 cloud = TagCloud()
 cloud.add("Python")
 cloud.add("python")
 cloud.add("python")
 # print(cloud.tags) # private # {'python': 3}
-print(cloud["PyThOn"]) # mora se pristupiti sa malim slovima!? inace je KeyError:
-print(cloud["PyThOn"]) # mozes kako hoce zbog lower
-cloud["PyThOn"] = 100 # 
-print(cloud["PyThOn"]) # 100
-print(len(cloud)) # 1
+# mora se pristupiti sa malim slovima!? inace je KeyError:
+print(cloud["PyThOn"])
+print(cloud["PyThOn"])  # mozes kako hoce zbog lower
+cloud["PyThOn"] = 100
+print(cloud["PyThOn"])  # 100
+print(len(cloud))  # 1
 for tag in cloud:
-    print(tag) # python
+    print(tag)  # python
 
 # access private attributes
-print(cloud.__dict__) # {'_TagCloud__tags': {'python': 100}}
-print(cloud._TagCloud__tags) # {'python': 100}
+print(cloud.__dict__)  # {'_TagCloud__tags': {'python': 100}}
+print(cloud._TagCloud__tags)  # {'python': 100}
+
+# properties, get set
+
+# ovako bi napisali u c# ili javi
+class Product1:
+    def __init__(self, price):
+        # self.__price = price
+        self.set_price(price)
+
+    def get_price(self):
+        return self.__price
+    
+    def set_price(self, value):
+        if value < 0:
+            raise ValueError("Price cannot be negative.")
+        else:
+            self.__price = value
+
+print(Product1(50).get_price())
+
+# ovako mozes pisati u pythonu, ali ipak nemoj
+class Product2:
+    def __init__(self, price):
+        # self.__price = price
+        self.__set_price(price)
+
+    def __get_price(self):
+        return self.__price
+    
+    def __set_price(self, value):
+        if value < 0:
+            raise ValueError("Price cannot be negative.")
+        else:
+            self.__price = value
+    price = property(__get_price, __set_price)
+
+print(Product2(51).price)
+
+# ovako pisi u pythonu
+class Product3:
+    def __init__(self, price):
+        self.price = price
+
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, value):
+        if value < 0:
+            raise ValueError("Price cannot be negative.")
+        else:
+            self.__price = value
+
+print(Product3(52).price)
