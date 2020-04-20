@@ -3,6 +3,9 @@ from pathlib import Path
 from time import ctime
 import shutil
 from zipfile import ZipFile
+import csv
+import json
+import sqlite3
 
 # Path("C:\\Program Files\\Microsoft")
 # Path(r"C:\Program Files\Microsoft") # raw path "r", ne moras pisati \\ umjesto \
@@ -87,4 +90,59 @@ with ZipFile("files.zip") as zip:
     print(info.compress_size)
     # zip.extractall("extract")
 
+# csv
+with open("data.csv", "w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerow(["transaction_id", "product_id", "price"])
+    writer.writerow([1000, 1, 5])
+    writer.writerow([1001, 2, 15])
 
+with open("data.csv") as file:
+    reader = csv.reader(file)
+
+    # print(list(reader)) # [['transaction_id', 'product_id', 'price'], ['1000', '1', '5'], ['1001', '2', '15']]
+    # ne mozes 2 puta zaredom citati file, zato je zakomentirana lijia iznad
+    for row in reader:
+        print(row)
+
+# json
+movies = [ # dict array u pythonu jako lici na json format
+    { "id": 1, "title": "Terminator", "year": 1989 },
+    { "id": 2, "title": "Kindergarten", "year": 1990 }
+]
+
+# create json obj as text
+jsondata = json.dumps(movies)
+print(jsondata)
+
+# write text json file
+Path("movies.json").write_text(jsondata)
+
+# read text json file
+textdata = Path("movies.json").read_text()
+dictdata = json.loads(textdata) # same as movies obj
+print(dictdata)
+
+# sqlite db
+movies_from_json = json.loads(Path("movies.json").read_text())
+print(movies_from_json) # dict list
+# with sqlite3.connect("db.sqlite3") as connection: # ako file ne postoji, kreirat ce ga
+#     command = "INSERT INTO Movies VALUES(?, ?, ?)"
+#     for movie in movies_from_json:
+#         print(movie.values()) # dict_values([1, 'Terminator', 1989])  .. svaki red
+#         print(tuple(movie.values())) # (1, 'Terminator', 1989) ..
+#         connection.execute(command, tuple(movie.values()))
+#     connection.commit()
+
+with sqlite3.connect("db.sqlite3") as connection:
+    command = "SELECT * FROM Movies"
+    cursor = connection.execute(command) # return cursor
+
+    # for row in cursor:
+    #     print(row) # tuple (1, 'Terminator', 1989)
+
+    # dvije linije iznad zakomentirane jer ne mozes 2 puta citati isti kursor
+    movies = cursor.fetchall() # procitaj sve odjednom
+    print(movies) # list of tuples [(1, 'Terminator', 1989), (2, 'Kindergarten', 1990)]
+
+# timestamps
