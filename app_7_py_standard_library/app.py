@@ -6,6 +6,15 @@ from zipfile import ZipFile
 import csv
 import json
 import sqlite3
+import time
+from datetime import datetime, timedelta
+import random
+import string
+import webbrowser
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+import smtplib
 
 # Path("C:\\Program Files\\Microsoft")
 # Path(r"C:\Program Files\Microsoft") # raw path "r", ne moras pisati \\ umjesto \
@@ -146,3 +155,54 @@ with sqlite3.connect("db.sqlite3") as connection:
     print(movies) # list of tuples [(1, 'Terminator', 1989), (2, 'Kindergarten', 1990)]
 
 # timestamps
+print(time.time()) # 1587372677.7349, number of seconds after 1.1.1970
+
+# datetime
+print(datetime(2020, 1, 31)) # 2020-01-31 00:00:00
+print(datetime.now()) # 2020-04-20 11:14:41.690266
+print(datetime.strptime("2020.01.31", "%Y.%m.%d")) # 2020-01-31 00:00:00
+print(datetime.now().strftime("%y.%m.%d")) # 20.04.20
+
+# timedelta
+
+dt1 = datetime(2020, 2, 1) + timedelta(days=-1, seconds=1) # add -1 day
+dt2 = datetime(2020, 3, 1)
+duration = dt2 - dt1
+print(duration) # 29 days, 23:59:59
+print("days:", duration.days) # 29
+print("seconds (vrijednost od sati, minuti, sekunde):", duration.seconds) # 86399
+print("total_seconds (u vrijednost uracunati i dani pretvoreni u sekunde):", duration.total_seconds()) # 2591999.0
+
+# random values
+
+print(random.random()) # 0-1
+print(random.randint(1, 10 )) # 1-10
+print(random.choice([1, 2, 3, 4])) # 1 or 2 or 3 or 4
+print(random.choices([1, 2, 3, 4], k=2)) # [4, 2]
+print(random.choices("abcdefghi", k=4)) # ['d', 'i', 'g', 'd']
+print("".join(random.choices("abcdefghi", k=4))) # efhf
+print("".join(random.choices(string.ascii_letters + string.digits, k=4))) # Ab6K
+
+numbers = [1, 2, 3, 4, 5]
+random.shuffle(numbers)
+print(numbers) # [2, 1, 4, 5, 3]
+
+# opening browser
+webbrowser.open("http://google.com")
+
+# email
+messsgae = MIMEMultipart()
+messsgae["from"] = "My name"
+messsgae["to"] = "dasdas@gmail.com"
+messsgae["subject"] = "Single line title"
+# messsgae.attach(MIMEText("Body", "plain"))
+messsgae.attach(MIMEText("<div>Body</div>", "html"))
+#messsgae.attach(MIMEImage(Path("..putanja do slike.png").read_bytes()))
+
+# radi u try bloku za svaki slucaj
+# with smtplib.SMTP(host="smtp.gmail.com", port=587) as smtp:
+#     smtp.ehlo() # kazemo smtp serveru da zelimo poslati email
+#     smtp.starttls() # tip konekcije, transport layer security, eknripcija
+#     smtp.login("myusername", "mypassword")
+#     smtp.send_message(messsgae)
+#     print("Sent...")
