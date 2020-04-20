@@ -15,6 +15,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 import smtplib
+from string import Template
+import sys
+import subprocess
 
 # Path("C:\\Program Files\\Microsoft")
 # Path(r"C:\Program Files\Microsoft") # raw path "r", ne moras pisati \\ umjesto \
@@ -188,7 +191,7 @@ random.shuffle(numbers)
 print(numbers) # [2, 1, 4, 5, 3]
 
 # opening browser
-webbrowser.open("http://google.com")
+# webbrowser.open("http://google.com")
 
 # email
 messsgae = MIMEMultipart()
@@ -196,8 +199,16 @@ messsgae["from"] = "My name"
 messsgae["to"] = "dasdas@gmail.com"
 messsgae["subject"] = "Single line title"
 # messsgae.attach(MIMEText("Body", "plain"))
-messsgae.attach(MIMEText("<div>Body</div>", "html"))
+# messsgae.attach(MIMEText("<div>Body</div>", "html"))
+
+# email templates
+template = Template(Path("template.html").read_text())
+# body = template.substitute({ "name": "John" }) # 1. nacin, replace name, podmetnes dict
+body = template.substitute(name="John") # 2. nacin, replace name
+messsgae.attach(MIMEText(body, "html"))
+
 #messsgae.attach(MIMEImage(Path("..putanja do slike.png").read_bytes()))
+
 
 # radi u try bloku za svaki slucaj
 # with smtplib.SMTP(host="smtp.gmail.com", port=587) as smtp:
@@ -206,3 +217,46 @@ messsgae.attach(MIMEText("<div>Body</div>", "html"))
 #     smtp.login("myusername", "mypassword")
 #     smtp.send_message(messsgae)
 #     print("Sent...")
+
+# comand line arguments
+print(sys.argv) # ['app.py']
+
+if len(sys.argv) == 1:
+    print("USAGE: python app.py <password>")
+else:
+    password = sys.argv[1]
+    print("Password", password) # ispise 2. parametar iz comand line-a
+
+# external programs
+# os commands, linux: ls, windows: dir
+
+# helper methods
+
+# nova metoda, koristi
+# subprocess.run
+
+# legacy, nemoj koristiti
+# subprocess.call
+# subprocess.check_call
+# subprocess.check_output
+
+# subprocess.Popen # process open class
+# subprocess.run(["dir", "-l"]) # linux
+result = subprocess.run(["dir", "/s"], shell=True) # The dir command displays a list of files and subdirectories in a directory. With the /S option, it recurses subdirectories and lists their contents as well.
+print(result.args) # ['dir', '/s']
+print(result.returncode) # 0, -> no error
+print(result.stderr) # None, error message
+print(result.stdout) # None, output is printed on window
+
+result = subprocess.run(["dir", "/s"], shell=True, capture_output=True, text=True)
+print(result.stdout) # string output..
+
+completed2 = subprocess.run(["python", "other.py"], capture_output=True, text=True)
+print(completed2.stdout) # Other.py script.
+if completed2.returncode != 0:
+    print(completed2.stderr)
+
+try:
+    completed3 = subprocess.run("sdas", capture_output=True, text=True, check=True) # check=True, if there is an error, run method will raise an exception
+except subprocess.CalledProcessError as ex:
+    print(ex)
