@@ -39,6 +39,14 @@ print(request.status_code) # 200
 # py runner postavke.. kad ti bude trebalo, pogledaj opet video.
 
 # pipenv
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# cmd moras se nalaziti u direktoriju gdje je app.py, mora biti kativiran env python -dolje lijevo i u shellu treba biti env python aktiviran.. prefix (envi naziv pythona)
+# i tek onda mozes instalirati pypi pakete
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 # PipFile, popis papketa i struktura, slicno kao npm package.js
 # PipFile.lock slicno kao npm package-lock.lock # popis tocnih verzija paketa
 
