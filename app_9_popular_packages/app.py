@@ -3,6 +3,8 @@ import config
 import PyPDF2
 import openpyxl
 import numpy as np
+import ibm_db
+
 
 # steps
 # pip install pipenv
